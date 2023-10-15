@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete Event</title>
+</head>
+<body>
+  <p>Are you sure you want to delete the Event "{{ event.name }}"?</p>
+  <form method="POST" action="">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    {{ form.hidden_tag() }}
+    <a href="{{ url_for('admin_dashboard', event_id=eventid) }}" class="btn btn-primary">Cancel</a>
+  </form>
+  <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+</body>
+</html>
+

@@ -1,0 +1,144 @@
+swagger: '2.0'
+info:
+  version: 1.0
+  title: Ticket Show
+  description: A ticket booking website
+basePath: /api/v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  BasicAuth:
+    type: basic
+definitions:
+  Event:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      date:
+        type: string
+        format: date-time
+      venue:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+      description:
+        type: string
+  EventInput:
+    type: object
+    properties:
+      name:
+        type: string
+      date:
+        type: string
+        format: date-time
+      venue_id:
+        type: integer
+      description:
+        type: string
+  Ticket:
+    type: object
+    properties:
+      id:
+        type: integer
+      event:
+        $ref: '#/definitions/Event'
+      buyer:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+      price:
+        type: number
+        format: float
+paths:
+  /shows_list:
+    get:
+      summary: Get all events
+      description: Returns a list of all events
+      responses:
+        200:
+          description: A list of events
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Event'
+    post:
+      summary: Create a new event
+      description: Creates a new event
+      parameters:
+        - name: event
+          in: body
+          description: The event to create
+          required: true
+          schema:
+            $ref: '#/definitions/EventInput'
+      responses:
+        201:
+          description: The created event
+          schema:
+            $ref: '#/definitions/Event'
+        400:
+          description: Invalid input
+  /events/{event_id}:
+    parameters:
+      - name: event_id
+        in: path
+        description: The ID of the event
+        required: true
+        type: integer
+    get:
+      summary: Get an event by ID
+      description: Returns a single event by ID
+      responses:
+        200:
+          description: The requested event
+          schema:
+            $ref: '#/definitions/Event'
+        404:
+          description: Event not found
+    put:
+      summary: Update an event by ID
+      description: Updates an event by ID
+      parameters:
+        - name: event
+          in: body
+          description: The event data to update
+          required: true
+          schema:
+            $ref: '#/definitions/EventInput'
+      responses:
+        200:
+          description: The updated event
+          schema:
+            $ref: '#/definitions/Event'
+        400:
+          description: Invalid input
+        404:
+          description: Event not found
+    delete:
+      summary: Delete an event by ID
+      description: Deletes an event by ID
+      responses:
+        204:
+          description: Event deleted successfully
+        404:
+          description: Event not found
+  /events/{event_id}/tickets:
+    parameters:
+      - name: event_id
+       
+
+
+

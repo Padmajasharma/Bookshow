@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete Venue</title>
+</head>
+<body>
+<form method="POST">
+    <p>Are you sure you want to delete the venue "{{ venue.name }}"?</p>
+    <form method="POST" action="">
+    {{form.csrf_token}}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{{ url_for('admin_dashboard', venue_id=venue.id) }}" class="btn btn-primary">Cancel</a>
+  </form>
+
+<main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Show</title>
+</head>
+<body>
+	<form method="POST" action="{{ url_for('edit_show', event_id=event.id) }}">
+		{{ form.hidden_tag() }}
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" value="{{ event.name }}" required>
+		<label for="start_time">Start Time:</label>
+		<input type="text" id="start_time" name="start_time" value="{{ event.start_time.strftime('%H:%M') }}" required>
+		<label for="end_time">End Time:</label>
+		<input type="text" id="end_time" name="end_time" value="{{ event.end_time.strftime('%H:%M') }}" required>
+		<label for="venue">Venue:</label>
+		<select id="venue" name="venue" required>
+            {% for venue in venues %}
+                <option value="{{ venue.id }}" {% if venue.id == event.venue_id %}selected{% endif %}>{{ venue.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image">
+	    <button type="submit">Update Show</button>
+	</form>
+	<main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+</body>
+</html>

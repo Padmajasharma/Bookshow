@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ticket Confirmation</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Ticket Confirmation</h1>
+      <p>Event Name: {{ event.name }}</p>
+      <p>Venue: {{ event.venue }}</p>
+      <p>Date and Time: {{ event.start_time.strftime('%Y-%m-%d %H:%M') }}</p>
+      <p>Ticket Price: {{ event.ticket_price }}</p>
+      <p>Quantity: {{ ticket.quantity }}</p>
+      <p>Total Cost: {{ ticket.price * ticket.quantity }}</p>
+    </div>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
